@@ -14,11 +14,11 @@ app.get("/", (req, res) => {
     res.send("Hello")
 })
 
-app.get("/chats", (req, res) => {
+app.get("/api/chats", (req, res) => {
     res.send(chats)
 })
 
-app.get("/chats/:identifier", (req, res) => {
+app.get("/api/chats/:identifier", (req, res) => {
     chat = chats.find(c => c._id == req.params.identifier)
     res.send(chat)
 })

@@ -13,3 +13,8 @@
 The application created by express denoted as app.
 
 `app.get(BACKEND_PATH, FUNCTION (request, response) to do something)`
+
+## TO READ
+
+https://heynode.com/tutorial/what-api-proxy/
+promise, await cycle, cors
