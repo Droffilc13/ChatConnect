@@ -2,8 +2,11 @@ import express from "express";
 import chats from "./data/data.js";
 import dotenv from 'dotenv';
 import path from 'path';
+import cors from "cors";
 
 const app = express()
+
+app.use(cors());
 
 const __dirname = path.resolve()
 const envPath = {path : path.join(__dirname, '/.env')}

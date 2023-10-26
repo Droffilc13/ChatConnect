@@ -6,7 +6,8 @@ const ChatPage = () => {
 
     const fetchChats = async () => {
         try {
-            const data = await axios.get("http://localhost:5000/api/chats")
+            const { data } = await axios.get("/api/chats")
+            console.log(data)
             setChats(data)
         } catch (error) {
             if (axios.isAxiosError(error)) {
@@ -24,7 +25,8 @@ const ChatPage = () => {
 
   return (
     <div>
-      {chats}
+        {chats.map(x => <div key={x._id}> {x.chatName} </div>)}
+
     </div>
   )
 }
