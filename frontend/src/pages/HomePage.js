@@ -1,6 +1,8 @@
 import React from 'react';
 import { Container, Box, Text } from '@chakra-ui/react';
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
+import Login from '../components/Authentication/Login';
+import Signup from '../components/Authentication/Signup';
 
 const HomePage = () => {
 
@@ -31,8 +33,8 @@ const HomePage = () => {
             <Tab width="50%">Sign Up</Tab>
           </TabList>
           <TabPanels>
-            <TabPanel>{1}</TabPanel>
-            <TabPanel>{2}</TabPanel>
+            <TabPanel> {<Login />} </TabPanel>
+            <TabPanel> {<Signup />} </TabPanel>
           </TabPanels>
         </Tabs>
 
