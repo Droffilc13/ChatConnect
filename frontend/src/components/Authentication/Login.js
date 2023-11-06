@@ -14,7 +14,7 @@ const Login = () => {
     });
 
     const handleSubmit = (values, actions) => {
-        alert(JSON.stringify(values, null, 29))
+        alert(JSON.stringify(values, null, 2))
         actions.resetForm();
     }
 
@@ -24,7 +24,7 @@ const Login = () => {
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
         >
-            {formik => {
+            {formik => (
                 <VStack   
                     as="form"
                     justifyContent={"center"}    
@@ -32,7 +32,7 @@ const Login = () => {
                 >
                     <Heading> Login </Heading>
 
-                    <FormControl isInvalid={formik.errors.email && formik.touched.username}>
+                    <FormControl isInvalid={formik.errors.email && formik.touched.email}>
                         <FormLabel>Email Address</FormLabel>
                         <Input 
                             name="email" 
@@ -40,7 +40,7 @@ const Login = () => {
                             value={formik.values.email} 
                             placeholder="Email Address"
                             {...formik.getFieldProps("email")}
-                            />
+                        />
                         <FormErrorMessage>{formik.errors.email}</FormErrorMessage>
                     </FormControl>
 
@@ -52,7 +52,7 @@ const Login = () => {
                             value={formik.values.password}
                             placeholder="Password"
                             {...formik.getFieldProps("password")} 
-                            />
+                        />
                         <FormErrorMessage>{formik.errors.password}</FormErrorMessage>
                     </FormControl>
 
@@ -60,11 +60,9 @@ const Login = () => {
                         Login
                     </Button>
                 </VStack>
-            }}
-
+            )}
         </Formik>
-    )
-    
-}
+    )  
+};
 
 export default Login;
