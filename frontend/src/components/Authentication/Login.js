@@ -32,10 +32,10 @@ const Login = () => {
                 <Input 
                     name="email" 
                     type="email" 
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
                     value={formik.values.email} 
-                    placeholder="Email Address"/>
+                    placeholder="Email Address"
+                    {...formik.getFieldProps("email")}
+                    />
                 <FormErrorMessage>{formik.errors.email}</FormErrorMessage>
             </FormControl>
 
@@ -44,10 +44,10 @@ const Login = () => {
                 <Input 
                     name="password" 
                     type="password" 
-                    onChange={formik.handleChange} 
-                    onBlur={formik.handleBlur}
-                    value={formik.values.password} 
-                    placeholder="Password" />
+                    value={formik.values.password}
+                    placeholder="Password"
+                    {...formik.getFieldProps("password")} 
+                    />
                 <FormErrorMessage>{formik.errors.password}</FormErrorMessage>
             </FormControl>
 
