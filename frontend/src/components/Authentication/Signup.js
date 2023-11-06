@@ -1,15 +1,17 @@
 import React from 'react';
 import { VStack } from '@chakra-ui/layout';
+import { object, string, number, date, InferType } from 'yup';
 
 const Signup = () => {
   return (
-    <VStack spacing="5px">
-        <FormControl>
-            <FormLabel>
+      <>Hello</>
+    // <VStack spacing="5px">
+    //     <FormControl>
+    //         <FormLabel>
                 
-            </FormLabel>
-        </FormControl>
-    </VStack>
+    //         </FormLabel>
+    //     </FormControl>
+    // </VStack>
   )
 }
 

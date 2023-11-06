@@ -1,5 +1,4 @@
-import React from 'react';
-import { Container, Box, Text } from '@chakra-ui/react';
+import { Container, Box, Text, Flex } from '@chakra-ui/react';
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
 import Login from '../components/Authentication/Login';
 import Signup from '../components/Authentication/Signup';
@@ -7,37 +6,25 @@ import Signup from '../components/Authentication/Signup';
 const HomePage = () => {
 
   return (
-    <Container maxWidth='xl' centreContent>
-      <Box        
-        d='flex'
-        justifyContent="center"
-        padding={3}
-        fontFamily="Arial"
-        background={"white"}
-        m = "40px 0 15px 0"
-        borderRadius="lg"
-        borderWidth="1px"
-      >
-        <Text fontSize='3xl' fontFamily='work sans' color='black' align="center">ChatConnect</Text>
-      </Box>
-      <Box 
-        background="white"
-        padding={4}
-        w="100%"
-        borderRadius="1g"
-        borderWidth="1px"
-      >
-        <Tabs variant='soft-rounded'>
-          <TabList marginBottom='1em'>
-            <Tab width="50%">Login</Tab>
-            <Tab width="50%">Sign Up</Tab>
+    <Container maxWidth='xl' centrecontent="true">
+      <Box background={"white"} textAlign="center" p="4" m="40px 0 15px 0" borderRadius="10px"> ChafffftConnect </Box>
+      <Box background="white">
+        <Tabs variant="soft-rounded" colorScheme="blue">
+          <TabList>
+            <Tab w="50%">Login</Tab>
+            <Tab w="50%">Sign Up</Tab>
           </TabList>
           <TabPanels>
-            <TabPanel> {<Login />} </TabPanel>
-            <TabPanel> {<Signup />} </TabPanel>
+            <TabPanel>
+              <Box>
+                <Login />
+              </Box>
+            </TabPanel>
+            <TabPanel>
+              Sign up
+            </TabPanel>
           </TabPanels>
         </Tabs>
-
       </Box>
     </Container>
   )

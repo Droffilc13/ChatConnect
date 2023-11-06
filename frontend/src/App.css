@@ -7,3 +7,27 @@
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+.tab-content {
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+    /* You can adjust the duration and easing as needed */
+}
+
+.tab-content-exit {
+    opacity: 1;
+}
+
+.tab-content-exit-active {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.tab-content-enter {
+    opacity: 0;
+}
+
+.tab-content-enter-active {
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+}
