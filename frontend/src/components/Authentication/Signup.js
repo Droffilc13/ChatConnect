@@ -1,5 +1,6 @@
 import React from 'react';
 import { VStack } from '@chakra-ui/layout';
+import { Button } from '@chakra-ui/react';
 import {
   FormControl,
   FormLabel,
@@ -10,11 +11,13 @@ import {
 import * as Yup from 'yup';
 import { Form } from 'react-router-dom';
 import { Field, Formik } from 'formik';
+import { useState } from 'react';
 
 const Signup = () => {
+
     const handleSubmit = (values, actions) => {
-        console.log(values)
-        actions.resetForm()
+        alert(JSON.stringify(values, null, 2))
+        // actions.resetForm()
     }
 
     const initialValues = {
@@ -30,8 +33,22 @@ const Signup = () => {
         email: Yup.string().email('Incorrect email format').required('Email is required'),
         password: Yup.string().required('Password is required'),
         confirm_password: Yup.string().required('Confirm password is required'),
-        picture: Yup.mixed()
-    })
+        profile_picture: Yup.mixed().nullable().test("fileType", "Uploaded profile picture should be .jpg or png", (value) => {
+            if (value === null) {
+                console.log("Empty profile picture")
+            } else {
+                console.log(value)
+                console.log(value.type)
+            }
+            
+            // if (value === null) {
+            //     return false;
+            // }
+
+            // const fileType = value.type;
+            // return fileType === 'image/png' || fileType === 'image/jpg';
+        })
+    });
 
     return (
         <Formik
@@ -40,7 +57,10 @@ const Signup = () => {
             onSubmit={handleSubmit}
         >
             {formik => (
-                <VStack as='form'>
+                <VStack 
+                    as='form'
+                    onSubmit={formik.handleSubmit}
+                >
 
                     <FormControl isInvalid={formik.errors.name && formik.touched.name} isRequired>
                         <FormLabel>Name</FormLabel>
@@ -55,7 +75,7 @@ const Signup = () => {
                     </FormControl>
 
                     <FormControl isInvalid={formik.errors.email && formik.touched.email} isRequired>
-                        <FormLabel>Email</FormLabel>
+                        <FormLabel>Email Address</FormLabel>
                         <Field 
                             as={Input} 
                             name="email" 
@@ -90,7 +110,24 @@ const Signup = () => {
                         <FormErrorMessage>{formik.errors.confirm_password}</FormErrorMessage>
                     </FormControl>
 
+                    <FormControl>
+                        <FormLabel>Profile Picture</FormLabel>
+                        <Field 
+                            name="profile_picture"
+                            type="file"
+                            onChange={(event) => {
+                                const selectedFile = event.currentTarget.files[0];
+                                formik.setFieldValue('profile_picture', selectedFile)
+                            }}
+                            {...formik.getFieldProps('profile_picture')}
+                        />
+                        <FormErrorMessage>{formik.errors.profile_picture}</FormErrorMessage>
+                    </FormControl>
 
+                    
+                    <Button type="submit">
+                        Create Account
+                    </Button>
                 </VStack>
             )}
             
