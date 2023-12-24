@@ -5,6 +5,7 @@ import path from 'path';
 import cors from "cors";
 import connectDB from "./config/db.js";
 import colors from 'colors';
+import router from "./routes/userRoutes.js";
 
 const app = express()
 app.use(cors());
