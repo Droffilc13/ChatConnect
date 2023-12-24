@@ -3,14 +3,16 @@ import chats from "./data/data.js";
 import dotenv from 'dotenv';
 import path from 'path';
 import cors from "cors";
+import connectDB from "./config/db.js";
+import colors from 'colors';
 
 const app = express()
-
 app.use(cors());
 
 const __dirname = path.resolve()
 const envPath = {path : path.join(__dirname, '/.env')}
 dotenv.config(envPath)
+connectDB();
 
 // Creation of API
 app.get("/", (req, res) => {
@@ -28,5 +30,5 @@ app.get("/api/chats/:identifier", (req, res) => {
 
 const PORT = process.env.PORT || 5000
 
-app.listen(PORT, console.log(`Server Started on PORT ${PORT}`))
+app.listen(PORT, console.log(`Server Started on PORT ${PORT}`.yellow.bold));
 

@@ -7,7 +7,7 @@ const HomePage = () => {
 
   return (
     <Container maxWidth='xl' centrecontent="true">
-      <Box background={"white"} textAlign="center" p="4" m="40px 0 15px 0" borderRadius="10px"> ChafffftConnect </Box>
+      <Box background={"white"} textAlign="center" p="4" m="40px 0 15px 0" borderRadius="10px"> ChatterTown </Box>
       <Box background="white">
         <Tabs variant="soft-rounded" colorScheme="blue">
           <TabList>
@@ -16,12 +16,10 @@ const HomePage = () => {
           </TabList>
           <TabPanels>
             <TabPanel>
-              <Box>
-                <Login />
-              </Box>
+              <Login />
             </TabPanel>
             <TabPanel>
-              Sign up
+              <Signup/>
             </TabPanel>
           </TabPanels>
         </Tabs>

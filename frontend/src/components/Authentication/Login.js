@@ -34,8 +34,6 @@ const Login = () => {
                     justifyContent={"center"}    
                     onSubmit={formik.handleSubmit}
                 >
-                    <Heading> Login </Heading>
-
                     <FormControl isInvalid={formik.errors.email && formik.touched.email}>
                         <FormLabel>Email Address</FormLabel>
                         <InputGroup>
