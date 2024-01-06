@@ -15,8 +15,7 @@ const userSchema = mongoose.Schema(
             required:true
         },
         pic: {
-            type:String, 
-            required:true, 
+            type:String,
             default: "../media/profile-user.png"
         }
     },
