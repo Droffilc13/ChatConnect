@@ -20,19 +20,16 @@ connectDB();
 app.use(express.json());
 app.use("/api/user", userRoutes);
 
-// Creation of API
-app.get("/", (req, res) => {
-    res.send("Hello")
+app.use((req, res, next) => {
+    res.status(404).send('Sorry, the page you are looking for does not exist');
 })
 
-app.get("/api/chats", (req, res) => {
-    res.send(chats)
+// TODO: The error function handling
+app.use((err, req, res, next) => {
+    return ;
 })
 
-app.get("/api/chats/:identifier", (req, res) => {
-    chat = chats.find(c => c._id == req.params.identifier)
-    res.send(chat)
-})
+
 
 const PORT = process.env.PORT || 5000
 
