@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import {
   FormControl,
@@ -11,6 +11,8 @@ import {
 } from '@chakra-ui/react';
 
 const Signup2 = () => {
+    const [isLoading, setIsLoading] = useState(false);
+
   return (
     <Formik
       initialValues={{
@@ -38,16 +40,18 @@ const Signup2 = () => {
         if (values.password !== values.confirmPassword) {
           errors.confirmPassword = 'Passwords do not match';
         }
-        const acceptedFormats = ['image/jpeg', 'image/gif']; // Add more formats if needed
+        const acceptedFormats = ['image/jpeg', 'image/jpg', 'image/png']; // Add more formats if needed
         if (values.profilePicture && !acceptedFormats.includes(values.profilePicture.type)) {
-            errors.profilePicture = 'Invalid file format. Please upload a JPEG, PNG, or GIF file.';
+            errors.profilePicture = 'Invalid file format. Please upload a JPEG, PNG, or JPG file.';
         }
         console.log(errors);
         return errors;
       }}
       onSubmit={(values) => {
         // Handle form submission logic here
+        setIsLoading(true);
         console.log(values);
+        setTimeout(() => setIsLoading(false), 5000);
       }}
     >
       {(formik) => (
@@ -94,7 +98,7 @@ const Signup2 = () => {
             </Field>
 
             <Field name="profilePicture">
-            {({ field, form }) => (
+            {({ form }) => (
                 <FormControl isInvalid={form.errors.profilePicture && form.touched.profilePicture}>
                 <FormLabel htmlFor="profilePicture">Profile Picture</FormLabel>
                 <Input
@@ -111,7 +115,7 @@ const Signup2 = () => {
             </Field>
 
 
-            <Button alignItems="center" colorScheme="teal" type="submit" isLoading={formik.isSubmitting}>
+            <Button alignItems="center" colorScheme="teal" type="submit" isLoading={isLoading}>
               Sign Up
             </Button>
           </VStack>

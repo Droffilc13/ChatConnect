@@ -3,22 +3,25 @@ import User from "../models/userModel.js";
 import generateToken from "./generateToken.js";
 
 const registerUser = asyncHandler( async(req, res) => {
-    const { name, email, password, pic} = req.body;
-
-    if (!name || !email || !password) {
+    const { username, email, password, pic} = req.body;
+    console.log(req.body);
+    console.log("Request Received: Register User");
+    if (!username || !email || !password) {
+        console.log("Hello")
         res.status(400);
         throw new Error("Please Enter all the Fields");
     }
-
+    
     const userExists = await User.findOne({email: email});
 
     if (userExists) {
         res.status(400)
         throw new Error('User with this email already exists!');
     }
-
+    console.log("Hey bro")
+    console.log(username, email, password, pic)
     const user = await User.create({
-        name, 
+        name: username, 
         email,
         password,
         pic
@@ -41,7 +44,6 @@ const registerUser = asyncHandler( async(req, res) => {
 const authenticateUser = asyncHandler( async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
-
     if (user && (await user.matchPassword(password))) {
         res.json({
             _id: user._id,
@@ -51,9 +53,8 @@ const authenticateUser = asyncHandler( async (req, res) => {
             token: generateToken(user._id),
         });
     } else {
-        res.send("User credentials are not correct!");
+        throw new Error("User credentials are not correct!");
     }
-
 })
 
 export { registerUser, authenticateUser };

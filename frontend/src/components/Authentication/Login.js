@@ -1,10 +1,16 @@
-import { Button, InputGroup, FormControl, FormLabel, Input, VStack, Heading, FormErrorMessage, InputLeftElement, InputRightElement } from "@chakra-ui/react";
+import { Button, InputGroup, FormControl, FormLabel, Input, VStack, Heading, FormErrorMessage, InputLeftElement, InputRightElement, useToast } from "@chakra-ui/react";
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { AtSignIcon, LockIcon, ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
+    const [isLoading, setIsLoading] = useState(false);
+    const toast = useToast();
+    const navigate = useNavigate();
+
     const initialValues = {
         email: "",
         password: "",
@@ -12,12 +18,58 @@ const Login = () => {
 
     const validationSchema = Yup.object().shape({
         email: Yup.string().required('Email Address is required').email("Incorrect email format"),
-        password: Yup.string().required('Password is required').min(4, 'Password is too short').max(12, 'Password is too long'),
+        password: Yup.string().required('Password is required').min(1, 'Password is too short').max(12, 'Password is too long'),
     });
 
-    const handleSubmit = (values, actions) => {
-        alert(JSON.stringify(values, null, 2))
-        actions.resetForm();
+    const handleSubmit = async (values, actions) => {
+        console.log("HEYO")
+        setIsLoading(true);
+        if (!values.email || !values.password) {
+            toast({
+                title: "Please fill out all the fields",
+                status: "warning",
+                duration: 5000,
+                isCloseable: true,
+                position: "bottom"
+            })
+        }
+
+        try {
+            const config = {
+                headers: {
+                    "Content-type": "application/json"
+                },
+            }
+            console.log("To backend");
+            const { data } = await axios.post(
+                "/api/user/login",
+                { email: values.email, 
+                  password: values.password },
+                config
+            )
+            console.log("Finsih")
+
+            toast({
+                title: "Login Successful",
+                status: "success",
+                duration: 5000,
+                isCloseable: true,
+                position: "bottom"
+            });
+            localStorage.setItem("userInfo", JSON.stringify(data));
+            setIsLoading(false);
+            navigate("/chats")
+        } catch (error) {
+            toast({
+                title: "Error Occured",
+                description: error.response.data.message,
+                status: "error",
+                duration: 5000,
+                isCloseable: true,
+                position: "bottom"
+            })
+            setIsLoading(false);
+        }
     }
 
     const [isVisible, setIsVisible] = useState(false);
@@ -69,8 +121,14 @@ const Login = () => {
                         <FormErrorMessage>{formik.errors.password}</FormErrorMessage>
                     </FormControl>
 
-                    <Button type="submit">
+                    <Button type="submit" width="100%" colorScheme="teal" isLoading={isLoading}>
                         Login
+                    </Button>
+                    <Button width="100%" colorScheme="red" onClick={() => {
+                        formik.setFieldValue('email', 'guest@example.com');
+                        formik.setFieldValue('password', 1234);
+                    }}>
+                        Get Guest Credentials
                     </Button>
                 </VStack>
             )}

@@ -26,7 +26,8 @@ app.use((req, res, next) => {
 
 // TODO: The error function handling
 app.use((err, req, res, next) => {
-    return ;
+    console.log(err);
+    throw err;
 })
 
 

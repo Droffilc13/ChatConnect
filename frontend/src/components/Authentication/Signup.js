@@ -17,6 +17,7 @@ const Signup = () => {
 
     const handleSubmit = (values, actions) => {
         alert(JSON.stringify(values, null, 2))
+        console.log(values);
         // actions.resetForm()
     }
 
@@ -53,7 +54,6 @@ const Signup = () => {
     return (
         <Formik
             initialValues={initialValues}
-            validationSchema={validationSchema}
             onSubmit={handleSubmit}
         >
             {formik => (
