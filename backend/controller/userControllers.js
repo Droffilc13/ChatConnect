@@ -4,8 +4,6 @@ import generateToken from "./generateToken.js";
 
 const registerUser = asyncHandler( async(req, res) => {
     const { username, email, password, pic} = req.body;
-    console.log(req.body);
-    console.log("Request Received: Register User");
     if (!username || !email || !password) {
         console.log("Hello")
         res.status(400);
@@ -18,8 +16,6 @@ const registerUser = asyncHandler( async(req, res) => {
         res.status(400)
         throw new Error('User with this email already exists!');
     }
-    console.log("Hey bro")
-    console.log(username, email, password, pic)
     const user = await User.create({
         name: username, 
         email,
@@ -66,7 +62,6 @@ const getAllUsers = asyncHandler(async (req, res) => {
             ]
         }
         : {};
-
     const users = await User.find(keyword).find({ _id: { $ne: req.user_id }});
     res.send(users);
 })
