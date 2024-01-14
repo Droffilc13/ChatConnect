@@ -1,11 +1,11 @@
-# ChatConnect
-`git init` is to initialise the nodejs server. package.json will be initialise under webproj folder. This is where we can initialise the entry point of our backend server
+# ChatterTown
 
-`npm init` initialises a package.json file
+## For Developers
 
-`npm i <package name>`: using npm to install a certain package
-
-`node backend/server.js` to start the server. However, we can create a custom script in package.json. map "name" to the command => call npm <name>
+1. To start the project, clone this project to your local machine
+2. From the root folder of the project `path/to/.../ChatterTown/`, install necessary backend modules with `npm i`.
+3. From the root folder of the project, do `cd frontend/`, and install necessary frontend modules with `npm i`.
+4. 
 
 
 
