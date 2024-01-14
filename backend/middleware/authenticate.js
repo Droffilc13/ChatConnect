@@ -6,13 +6,14 @@ const authenticate = asyncHandler(async (req, res, next) => {
     if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
         try {
             const token = req.headers.authorization.split(' ')[1];
+            console.log("Token: ", token)
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            // const user = await User.findById(decoded.id);
-            const user = await User.find({ _id : { $eq:decoded.id } });
-            req.user = user
+            console.log(decoded);
+            const user = await User.findOne({ _id : { $eq:decoded.id } });
+            req.user = user;
+            console.log(user);
             next();
         } catch (error) {
-            console.log("Hello2")
             res.status(401);
             throw new Error('Unauthorized!');
         }

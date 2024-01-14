@@ -12,7 +12,7 @@ const chatModel = mongoose.Schema(
         },
         users: [{
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Users"
+            ref: "User"
         }],
         latestMessage: {
             type: mongoose.Schema.Types.ObjectId,
@@ -29,7 +29,7 @@ const chatModel = mongoose.Schema(
 );
 
 
-const Chat = mongoose.model("Chat");
+const Chat = mongoose.model("Chat", chatModel);
 export default Chat;
 
 // chatName
