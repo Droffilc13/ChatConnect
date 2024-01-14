@@ -70,9 +70,8 @@ const fetchChats = asyncHandler( async (req, res) => {
 
 const createGroupChat = asyncHandler( async (req, res) => {
     if (!req.body.users || !req.body.name) {
-        return res.status(400).send({ message: "Please Fill out all the fields"});
+        res.status(400).send({ message: "Please Fill out all the fields"});
     }
-
     const users = JSON.parse(req.body.users);
 
     if(users.length < 2) {
@@ -102,7 +101,28 @@ const createGroupChat = asyncHandler( async (req, res) => {
 })
 
 const renameGroup = asyncHandler( async (req, res) => {
-    console.log("renameGroup")
+    console.log("Chat id", req.body);
+    if (!req.body.name || ! req.body.chatId) {
+        res.status(400).send({'message': 'Missing fields'});
+    }
+
+    const conditions = {_id: req.body.chatId};
+    const update = {'chatName': req.body.name};
+    Chat.findOneAndUpdate(conditions, update, { returnOriginal: false})
+        .populate("users", "-password")
+        .populate("groupAdmin", "-password")
+        .populate("latestMessage")
+        .then(updatedGroupChat => {
+            if (updatedGroupChat) {
+                res.json(updatedGroupChat);
+            } else {
+                res.status(404)
+                throw new Error('Chat Not Found');
+            }
+        }).catch(e => {
+            throw new Error(e.message);
+        })
+
 })
 
 const removeFromGroup = asyncHandler( async (req, res) => {
