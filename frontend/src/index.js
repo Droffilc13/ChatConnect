@@ -7,8 +7,6 @@ import { BrowserRouter } from 'react-router-dom'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-const 
-
 root.render(
   <React.StrictMode>
     <ChatProvider>
