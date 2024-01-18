@@ -26,10 +26,12 @@ import {
   DrawerCloseButton,
 } from '@chakra-ui/react';
 import { useToast } from '@chakra-ui/react';
+import axios from 'axios';
+// import ChatLoading from './misc/ChatLoading.js';
 
 const SideMenu = () => {
     const [search, setSearch] = useState("")
-    // const [searchResult, setSearchResult] = useState([])
+    const [searchResult, setSearchResult] = useState([])
     const [loading, setLoading] = useState(false);
     // const [loadingChat, setLoadingChat] = useState();
 
@@ -39,7 +41,7 @@ const SideMenu = () => {
     const navigate = useNavigate();
     const toast = useToast();
 
-    const handleSearch = () => {
+    const handleSearch = async () => {
         if (!search) {
             toast({
                 title: "Enter something to search",
@@ -54,13 +56,25 @@ const SideMenu = () => {
         try {
             setLoading(true);
 
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${user.token}`
+                }
+            };
+
+            const { data } = await axios.get(`/api/user?search=${search}`, config)
+            console.log("data", data);
+            setLoading(false)
+            setSearchResult(data);
 
         } catch (e) {
 
         }
-
-
     }
+
+    // const accessChat = (userId) => {
+
+    // };
 
     return (
         <>
@@ -121,14 +135,21 @@ const SideMenu = () => {
                 <DrawerOverlay />
                 <DrawerContent>
                 <DrawerCloseButton />
-                <DrawerHeader>Create your account</DrawerHeader>
+                <DrawerHeader>Search Users</DrawerHeader>
 
                 <DrawerBody
                     display="flex"
                     flexDirection="row"
                 >
-                    <Input onChange={(e) => setSearch(e.target.value)} mr={2} placeholder='Search by name or email' />
-                    <Button onClick={handleSearch}>Go</Button>
+                    <Box display="flex" flexDir={"row"}>
+                        <Input onChange={(e) => setSearch(e.target.value)} mr={2} placeholder='Search by name or email' />
+                        <Button onClick={handleSearch}>Go</Button>
+                        {/* {loading 
+                            ? <ChatLoading /> 
+                            : searchResult?.map(user => {
+                                <div>{user.name}</div>
+                            })} */}
+                    </Box>
                 </DrawerBody>
                 </DrawerContent>
             </Drawer>
