@@ -1,34 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
+import { ChatContext } from '../components/context/ChatProvider.js'
 
 const ChatPage = () => {
-    const [chats, setChats] = useState([])
-
-    const fetchChats = async () => {
-        try {
-            const { data } = await axios.get("/api/chats")
-            console.log(data)
-            setChats(data)
-        } catch (error) {
-            if (axios.isAxiosError(error)) {
-                console.log(`Axios Error: ${error}`)
-            } else {
-                console.log(`Unexpected Error: ${error}`)
-            }
-        }
-        
-    };
-
-    useEffect(() => {
-        fetchChats();
-    }, [])
-
-  return (
-    <div>
-        {chats.map(x => <div key={x._id}> {x.chatName} </div>)}
-
-    </div>
-  )
+    const { user } = useContext(ChatContext);
+    console.log(user)
+    return (
+        <h1>Hello {user.name}</h1>
+    );
 }
 
 export default ChatPage
