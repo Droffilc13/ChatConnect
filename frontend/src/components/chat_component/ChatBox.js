@@ -2,7 +2,11 @@
 
 const ChatBox = () => {
     return (
-        <>ChatBox</>
+        <>
+        
+            ChatBox
+        
+        </>
     );
 }
 
