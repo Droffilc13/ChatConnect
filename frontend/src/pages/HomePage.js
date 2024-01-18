@@ -1,7 +1,7 @@
 import { Container, Box, Text, Flex } from '@chakra-ui/react';
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
-import Login from '../components/Authentication/Login';
-import Signup from '../components/Authentication/Signup.js';
+import Login from '../components/authentication/Login';
+import Signup from '../components/authentication/Signup.js';
 
 const HomePage = () => {
 
