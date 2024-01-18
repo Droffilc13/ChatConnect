@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import { Box, Button, Input, Text, Tooltip } from '@chakra-ui/react';
+import { Box, Button, Input, Spinner, Text, Tooltip } from '@chakra-ui/react';
 import { BellIcon, ChevronDownIcon, SearchIcon } from '@chakra-ui/icons';
 import {
   Menu,
@@ -90,7 +90,11 @@ const SideMenu = () => {
                 }
             }
 
-            const {data} = await axios.get("api/chat", { userId }, config);
+            const {data} = await axios.post("/api/chats", { userId }, config);
+
+            if (!chats.find((c) => c._id === data._id)) {
+                setChats([data, ...chats]);
+            }
 
             setActiveChat(data);
             setLoadingChat(false);
@@ -183,7 +187,7 @@ const SideMenu = () => {
                                 />
 
                         ))}
-
+                    {loadingChat && <Spinner ml="auto" d="flex"/>}
                 </DrawerBody>
                 </DrawerContent>
             </Drawer>

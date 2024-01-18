@@ -14,10 +14,12 @@ const ChatPage = () => {
             { user && <SideMenu/>}
             <Box
                 display='flex'
-                flexDirection='column'
+                flexDirection='row'
                 w="100%"
-                justifyContent='center'
-                bg={'red'}
+                h="91vh"
+                mt={2}
+                ml={2}
+                justifyContent='space-between'
                 >
                 { user && <UserList/> }
                 { user && <ChatBox/> }

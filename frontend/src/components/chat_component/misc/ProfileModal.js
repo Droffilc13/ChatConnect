@@ -11,8 +11,6 @@ import {
 } from '@chakra-ui/react';
 
 const ProfileModal = ({isProfileOpen, onProfileClose, user}) => {
-    
-
     return (
         <>
 
