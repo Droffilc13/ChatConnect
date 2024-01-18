@@ -1,5 +1,5 @@
 import { ChatContext } from "../../context/ChatProvider"
-import { Avatar, Box } from "@chakra-ui/react";
+import { Avatar, Box, Text } from "@chakra-ui/react";
 
 const UserListItem = ({ user, handleFunction }) => {
     return (
@@ -15,6 +15,8 @@ const UserListItem = ({ user, handleFunction }) => {
             alignItems="center"
             color="black"
             borderRadius="lg"
+            mb={4}
+            p={2}
         >
             <Avatar
                 mr={2}

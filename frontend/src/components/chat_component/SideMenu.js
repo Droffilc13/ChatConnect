@@ -27,13 +27,14 @@ import {
 } from '@chakra-ui/react';
 import { useToast } from '@chakra-ui/react';
 import axios from 'axios';
-// import ChatLoading from './misc/ChatLoading.js';
+import ChatLoading from './misc/ChatLoading.js';
+import UserListItem from './misc/UserListItem.js';
 
 const SideMenu = () => {
     const [search, setSearch] = useState("")
     const [searchResult, setSearchResult] = useState([])
     const [loading, setLoading] = useState(false);
-    // const [loadingChat, setLoadingChat] = useState();
+    const [loadingChat, setLoadingChat] = useState();
 
     const { isOpen: isProfileOpen, onOpen: onProfileOpen, onClose: onProfileClose } = useDisclosure();
     const { isOpen: isSearchBarOpen, onOpen: onSearchBarOpen, onClose: onSearchBarClose } = useDisclosure()
@@ -66,15 +67,24 @@ const SideMenu = () => {
             console.log("data", data);
             setLoading(false)
             setSearchResult(data);
+        } catch (e) {
+            toast({
+                title: "Something went wrong with the searching ...",
+                status: "warning",
+                duration: "5000",
+                isClosable: true,
+                position: "top-left"
+            });
+        }
+    }
+
+    const accessChat = (userId) => {
+        try {
 
         } catch (e) {
 
         }
-    }
-
-    // const accessChat = (userId) => {
-
-    // };
+    };
 
     return (
         <>
@@ -137,19 +147,23 @@ const SideMenu = () => {
                 <DrawerCloseButton />
                 <DrawerHeader>Search Users</DrawerHeader>
 
-                <DrawerBody
-                    display="flex"
-                    flexDirection="row"
-                >
-                    <Box display="flex" flexDir={"row"}>
+                <DrawerBody>
+                    <Box display="flex" flexDir={"row"} mb={4}>
                         <Input onChange={(e) => setSearch(e.target.value)} mr={2} placeholder='Search by name or email' />
                         <Button onClick={handleSearch}>Go</Button>
-                        {/* {loading 
-                            ? <ChatLoading /> 
-                            : searchResult?.map(user => {
-                                <div>{user.name}</div>
-                            })} */}
                     </Box>
+
+                    {loading
+                        ? <ChatLoading/>
+                        : searchResult?.map(user => (
+                            <UserListItem
+                                key={user._id}
+                                user={user}
+                                handleFunction={() => accessChat(user._id)}
+                                />
+
+                        ))}
+
                 </DrawerBody>
                 </DrawerContent>
             </Drawer>
