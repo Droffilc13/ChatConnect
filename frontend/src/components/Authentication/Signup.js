@@ -36,6 +36,7 @@ const Signup = () => {
 
     const postDetails = (pics , setFieldValue) => {
         setIsLoading(true);
+        console.log("Picture: ", pics);
         if (pics == undefined) {
             toast({
                 title: "Please select an image",
@@ -120,7 +121,8 @@ const Signup = () => {
                         username: values.username, 
                         email: values.email, 
                         password: values.password, 
-                        pics: values.pics}, 
+                        pic: values.profile_picture
+                    }, 
                         config);
                     console.log(data)
                     toast ({
