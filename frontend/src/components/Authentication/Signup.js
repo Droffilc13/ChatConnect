@@ -1,138 +1,184 @@
-import React from 'react';
-import { VStack } from '@chakra-ui/layout';
-import { Button } from '@chakra-ui/react';
+import { useState } from 'react';
 import {
   FormControl,
   FormLabel,
   FormErrorMessage,
   FormHelperText,
   Input,
+  Button,
+  VStack,
+  Center,
+  useToast
 } from '@chakra-ui/react';
 import * as Yup from 'yup';
-import { Form } from 'react-router-dom';
-import { Field, Formik } from 'formik';
-import { useState } from 'react';
+import { Field, Formik, Form } from 'formik';
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
-const Signup = () => {
-
-    const handleSubmit = (values, actions) => {
-        alert(JSON.stringify(values, null, 2))
-        console.log(values);
-        // actions.resetForm()
-    }
-
-    const initialValues = {
-        name: "",
-        email: "",
-        password: "",
-        confirm_password: "",
-        profile_picture: null
-    }
-
-    const validationSchema = Yup.object().shape({
-        name: Yup.string().required('Name is required'),
-        email: Yup.string().email('Incorrect email format').required('Email is required'),
-        password: Yup.string().required('Password is required'),
-        confirm_password: Yup.string().required('Confirm password is required'),
-        profile_picture: Yup.mixed().nullable().test("fileType", "Uploaded profile picture should be .jpg or png", (value) => {
-            if (value === null) {
-                console.log("Empty profile picture")
-            } else {
-                console.log(value)
-                console.log(value.type)
-            }
-            
-            // if (value === null) {
-            //     return false;
-            // }
-
-            // const fileType = value.type;
-            // return fileType === 'image/png' || fileType === 'image/jpg';
-        })
-    });
-
+const TextField = ({ name, label, type, placeholder }) => {
     return (
-        <Formik
-            initialValues={initialValues}
-            onSubmit={handleSubmit}
-        >
-            {formik => (
-                <VStack 
-                    as='form'
-                    onSubmit={formik.handleSubmit}
-                >
-
-                    <FormControl isInvalid={formik.errors.name && formik.touched.name} isRequired>
-                        <FormLabel>Name</FormLabel>
-                        <Field 
-                            as={Input} 
-                            name="name" 
-                            type="text" 
-                            placeholder="Name"
-                            {...formik.getFieldProps('name')}    
-                        />
-                        <FormErrorMessage>{formik.errors.name}</FormErrorMessage>
-                    </FormControl>
-
-                    <FormControl isInvalid={formik.errors.email && formik.touched.email} isRequired>
-                        <FormLabel>Email Address</FormLabel>
-                        <Field 
-                            as={Input} 
-                            name="email" 
-                            type="email" 
-                            placeholder="Email"
-                            {...formik.getFieldProps('email')}    
-                        />
-                        <FormErrorMessage>{formik.errors.email}</FormErrorMessage>
-                    </FormControl>
-
-                    <FormControl isInvalid={formik.errors.password && formik.touched.password} isRequired>
-                        <FormLabel>Password</FormLabel>
-                        <Field 
-                            as={Input} 
-                            name="password" 
-                            type="text" 
-                            placeholder="Password"
-                            {...formik.getFieldProps('password')}    
-                        />
-                        <FormErrorMessage>{formik.errors.password}</FormErrorMessage>
-                    </FormControl>
-
-                    <FormControl isInvalid={formik.errors.confirm_password && formik.touched.confirm_password} isRequired>
-                        <FormLabel>Confirm Password</FormLabel>
-                        <Field 
-                            as={Input} 
-                            name="confirm_password" 
-                            type="text" 
-                            placeholder="Confirm Password"
-                            {...formik.getFieldProps('confirm_password')}    
-                        />
-                        <FormErrorMessage>{formik.errors.confirm_password}</FormErrorMessage>
-                    </FormControl>
-
-                    <FormControl>
-                        <FormLabel>Profile Picture</FormLabel>
-                        <Field 
-                            name="profile_picture"
-                            type="file"
-                            onChange={(event) => {
-                                const selectedFile = event.currentTarget.files[0];
-                                formik.setFieldValue('profile_picture', selectedFile)
-                            }}
-                            {...formik.getFieldProps('profile_picture')}
-                        />
-                        <FormErrorMessage>{formik.errors.profile_picture}</FormErrorMessage>
-                    </FormControl>
-
-                    
-                    <Button type="submit">
-                        Create Account
-                    </Button>
-                </VStack>
+        <Field name={name}>
+            {({ field, form }) => (
+                <FormControl isInvalid={ form.errors[name] && form.touched[name] }>
+                    <FormLabel htmlFor={name}>{label}</FormLabel>
+                    <Input {...field} id={name} type={type} placeholder={placeholder || label }/>
+                    <FormErrorMessage>{form.errors[name]}</FormErrorMessage>
+                </FormControl>
             )}
-            
-        </Formik>
+        </Field>
     );
 }
 
-export default Signup
+const Signup = () => {
+    const [isLoading, setIsLoading] = useState(false);
+    const toast = useToast();
+    const navigate = useNavigate();
+
+    const postDetails = (pics , setFieldValue) => {
+        setIsLoading(true);
+        console.log("Picture: ", pics);
+        if (pics == undefined) {
+            toast({
+                title: "Please select an image",
+                status: "warning",
+                duration: 5000,
+                isClosable: true,
+                position: "bottom"
+            })
+            return;
+        }
+
+        if (pics.type === "image/jpeg" || pics.type === "image/png") {
+            const data = new FormData();
+            data.append("file", pics);
+            data.append("upload_preset", "chattertown");
+            data.append("cloud_name", "deolnyeuf");
+            fetch("https://api.cloudinary.com/v1_1/deolnyeuf/image/upload", {
+                method:'post',
+                body:data,
+            }).then((res) => res.json())
+            .then((data) => {
+                setFieldValue('profile_picture', data.url.toString());
+                console.log(data);
+                setIsLoading(false);
+            }).catch((err) => {
+                console.log(err);
+                setIsLoading(false);
+            })
+        } else {
+            toast({
+                title: "Please select a supported image format (JPEG / PNG/ JPG)",
+                status: "warning",
+                duration: 5000,
+                isClosable: true,
+                position: "bottom"
+            })
+        }
+    }
+
+    return (
+        <Formik
+            initialValues={{
+                username: "",
+                email: "",
+                password: "",
+                confirm_password: "",
+                profile_picture: null,
+            }}
+            validate={ (values) => {
+                const errors = {};
+
+                if (!values.username) {
+                    errors.username = 'Required';
+                }
+
+                console.log(errors)
+                return errors;
+            }}
+            onSubmit={ async (values) => {
+                setIsLoading(true);
+                if (!values.username || !values.email || !values.password || !values.confirm_password) {
+                    console.log(values);
+                    console.log(values.name );
+                    toast ({
+                        title: "Please fill out all the required fields",
+                        status: "warning",
+                        duration: 5000,
+                        isClosable: true,
+                        position: "bottom"
+                    })
+                    setIsLoading(false);
+                    return;
+                }
+                
+                try  {
+                    const config = {
+                        headers: {
+                            "Content-type": "application/json",
+                        }
+                    };
+                    const data = await axios.post("/api/user", {
+                        username: values.username, 
+                        email: values.email, 
+                        password: values.password, 
+                        pic: values.profile_picture
+                    }, 
+                        config);
+                    console.log(data)
+                    toast ({
+                        title: "Registration Successful",
+                        status: "success",
+                        duration: 5000,
+                        isClosable: true,
+                        position: "bottom"
+                    })
+                    
+                    localStorage.setItem("userInfo", JSON.stringify(data));
+                    navigate('/chats')
+                } catch (error) {
+                    toast({
+                        title: "Error occured!",
+                        description: error.response.data.message,
+                        status: "error",
+                        duration: 5000,
+                        isClosable: true,
+                        position: "bottom",
+                    })
+                }
+                setIsLoading(false);
+            }}
+        >
+        
+        {(formik) => (
+            <Form>
+                <VStack spacing={4} align="start">
+                    <TextField name="username" label="Username" type="text" />
+                    <TextField name="email" label="Email" type="text" />
+                    <TextField name="password" label="Password" type="password" />
+                    <TextField name="confirm_password" label="Confirm Password" type="password" />
+                    <Field name="profile_picture">
+                        {({ form }) => (
+                            <FormControl isInvalid={form.errors.profile_picture && form.touched.profile_picture}>
+                                <Input
+                                    type="file"
+                                    id="profile_picture"
+                                    accept="image/*"
+                                    onChange={(event) => {
+                                        postDetails(event.target.files[0], formik.setFieldValue);
+                                    }}
+                                />
+                            </FormControl>
+                        )}
+                    </Field>
+                    <Button type="submit" isLoading={isLoading}>
+                        Sign Up
+                    </Button>
+                </VStack>
+            </Form>
+        )}
+        
+        </Formik>
+    )
+}
+
+export default Signup;
