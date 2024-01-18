@@ -38,7 +38,7 @@ const SideMenu = () => {
 
     const { isOpen: isProfileOpen, onOpen: onProfileOpen, onClose: onProfileClose } = useDisclosure();
     const { isOpen: isSearchBarOpen, onOpen: onSearchBarOpen, onClose: onSearchBarClose } = useDisclosure()
-    const { user } = useContext(ChatContext);
+    const { user, setUser, activeChat, setActiveChat, chats, setChats } = useContext(ChatContext);
     const navigate = useNavigate();
     const toast = useToast();
 
@@ -63,7 +63,8 @@ const SideMenu = () => {
                 }
             };
 
-            const { data } = await axios.get(`/api/user?search=${search}`, config)
+            const { data } = await axios.get(`/api/user?search=${search}`, config);
+
             console.log("data", data);
             setLoading(false)
             setSearchResult(data);
@@ -78,11 +79,30 @@ const SideMenu = () => {
         }
     }
 
-    const accessChat = (userId) => {
+    const accessChat = async (userId) => {
         try {
+            setLoadingChat(true);
 
+            const config = {
+                headers: {
+                    "Content-type": "application/json",
+                    Authorization: `Bearer ${user.token}`,
+                }
+            }
+
+            const {data} = await axios.get("api/chat", { userId }, config);
+
+            setActiveChat(data);
+            setLoadingChat(false);
+            onSearchBarClose();
         } catch (e) {
-
+            toast({
+                title: "Error fetching chats ...",
+                status: "warning",
+                duration: "5000",
+                isClosable: true,
+                position: "bottom-left"
+            });
         }
     };
 

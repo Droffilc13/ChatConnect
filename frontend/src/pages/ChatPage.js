@@ -4,7 +4,7 @@ import { ChatContext } from '../components/context/ChatProvider.js'
 import { Box } from '@chakra-ui/react';
 import SideMenu from '../components/chat_component/SideMenu.js';
 import ChatBox from '../components/chat_component/ChatBox.js';
-import UserList from '../components/chat_component/UserList.js';
+import UserList from '../components/chat_component/ChatList.js';
 
 const ChatPage = () => {
     const { user } = useContext(ChatContext);

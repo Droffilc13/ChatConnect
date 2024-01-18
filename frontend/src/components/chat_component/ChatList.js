@@ -2,7 +2,7 @@ import UserListItem from "./misc/UserListItem";
 import { ChatContext } from "../context/ChatProvider";
 import { useContext } from "react";
 
-const UserList = () => {
+const ChatList = () => {
     const { user } = useContext(ChatContext)
     return (
         <>
@@ -11,4 +11,4 @@ const UserList = () => {
     );
 }
 
-export default UserList
+export default ChatList

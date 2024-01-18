@@ -5,6 +5,9 @@ const ChatContext = createContext();
 
 const ChatProvider = ({ children }) => {
     const [user, setUser] = useState();
+    const [activeChat, setActiveChat] = useState();
+    const [chats, setChats] = useState();
+
     const navigate = useNavigate();
 
     const checkTokenValidity = () => {
@@ -19,7 +22,7 @@ const ChatProvider = ({ children }) => {
     useEffect(checkTokenValidity, [navigate]);
 
     return (
-        <ChatContext.Provider value={{ user, setUser }}>
+        <ChatContext.Provider value={{ user, setUser, activeChat, setActiveChat, chats, setChats }}>
             {children}
         </ChatContext.Provider>
     );
