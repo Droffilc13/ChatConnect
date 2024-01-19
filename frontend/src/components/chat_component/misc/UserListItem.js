@@ -21,7 +21,6 @@ const UserListItem = ({ user, handleFunction }) => {
             <Avatar
                 mr={2}
                 size="sm"
-                cursor="pointer"
                 name={user.name}
                 src={user.pic}
             />

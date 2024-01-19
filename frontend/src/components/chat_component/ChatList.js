@@ -3,14 +3,17 @@ import { ChatContext } from "../context/ChatProvider";
 import { useContext, useState, useEffect } from "react";
 import { useToast } from "@chakra-ui/react";
 import axios from "axios";
-import { Box, Button, Stack, Text } from '@chakra-ui/react';
+import { Box, Button, Stack, Text, useDisclosure } from '@chakra-ui/react';
 import { AddIcon } from "@chakra-ui/icons";
-    import ChatLoading from "./misc/ChatLoading";
+import ChatLoading from "./misc/ChatLoading";
+import GroupChatModel from "../group_chat/GroupChatModel";
 
 const ChatList = () => {
     const { user, activeChat, setActiveChat, chats, setChats } = useContext(ChatContext);
+    const { isOpen:isGroupChatModalOpen, onOpen:onGroupChatModalOpen, onClose:onGroupChatModalClose } = useDisclosure();
+
     const toast = useToast();
-    console.log(chats);
+
     const fetchChats = async () => {
         try {
             const config = {
@@ -59,13 +62,16 @@ const ChatList = () => {
                 fontSize={{ base: "28px", md:"30px" }}
             >
                 My Chats
+
                 <Button
                     mt={1}
                     rightIcon={<AddIcon/>}
                     _hover={{ bg: "green.300" }}
-                >
+                    onClick={ onGroupChatModalOpen }
+                    >
                     New Group Chat
                 </Button>
+
             </Box>
 
             <Box
@@ -105,6 +111,8 @@ const ChatList = () => {
                     <ChatLoading />
                 )}
             </Box>
+            
+            <GroupChatModel isGroupChatModalOpen={isGroupChatModalOpen} onGroupChatModalClose={onGroupChatModalClose} />
         </Box>
     );
 }

@@ -184,7 +184,7 @@ const SideMenu = () => {
                                 key={user._id}
                                 user={user}
                                 handleFunction={() => accessChat(user._id)}
-                                />
+                            />
 
                         ))}
                     {loadingChat && <Spinner ml="auto" d="flex"/>}

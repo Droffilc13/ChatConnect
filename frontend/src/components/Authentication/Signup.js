@@ -14,20 +14,7 @@ import * as Yup from 'yup';
 import { Field, Formik, Form } from 'formik';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
-
-const TextField = ({ name, label, type, placeholder }) => {
-    return (
-        <Field name={name}>
-            {({ field, form }) => (
-                <FormControl isInvalid={ form.errors[name] && form.touched[name] }>
-                    <FormLabel htmlFor={name}>{label}</FormLabel>
-                    <Input {...field} id={name} type={type} placeholder={placeholder || label }/>
-                    <FormErrorMessage>{form.errors[name]}</FormErrorMessage>
-                </FormControl>
-            )}
-        </Field>
-    );
-}
+import TextField from '../form_utils/TextField';
 
 const Signup = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -124,7 +111,6 @@ const Signup = () => {
                         pic: values.profile_picture
                     }, 
                         config);
-                    console.log(data)
                     toast ({
                         title: "Registration Successful",
                         status: "success",
