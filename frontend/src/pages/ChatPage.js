@@ -8,6 +8,7 @@ import UserList from '../components/chat_component/ChatList.js';
 
 const ChatPage = () => {
     const { user } = useContext(ChatContext);
+    const [ fetch, fetchAgain ] = useState(false);
 
     return (
         <div style={{width: '100%'}}>
@@ -21,8 +22,8 @@ const ChatPage = () => {
                 ml={2}
                 justifyContent='space-between'
                 >
-                { user && <UserList/> }
-                { user && <ChatBox/> }
+                { user && <UserList fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} /> }
+                { user && <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} /> }
             </Box>
 
         </div>

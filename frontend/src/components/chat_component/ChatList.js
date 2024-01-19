@@ -8,7 +8,7 @@ import { AddIcon } from "@chakra-ui/icons";
 import ChatLoading from "./misc/ChatLoading";
 import GroupChatModel from "../group_chat/GroupChatModel";
 
-const ChatList = () => {
+const ChatList = ({fetchAgain, setFetchAgain}) => {
     const { user, activeChat, setActiveChat, chats, setChats } = useContext(ChatContext);
     const { isOpen:isGroupChatModalOpen, onOpen:onGroupChatModalOpen, onClose:onGroupChatModalClose } = useDisclosure();
 
@@ -38,7 +38,7 @@ const ChatList = () => {
 
     useEffect(() => {
         fetchChats();
-    }, [])
+    }, [fetchAgain])
 
     return (
         <Box
