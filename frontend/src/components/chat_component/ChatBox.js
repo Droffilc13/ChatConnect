@@ -1,6 +1,7 @@
 import { Box, Skeleton, Stack } from "@chakra-ui/react";
 import { ChatContext } from "../context/ChatProvider";
 import { useContext } from "react";
+import SingleChat from "../chat_boxes/SingleChat";
 
 const ChatBox = ({ fetchAgain, setFetchAgain }) => {
     const { activeChat, setActiveChat } = useContext(ChatContext)
@@ -17,10 +18,7 @@ const ChatBox = ({ fetchAgain, setFetchAgain }) => {
             borderRadius="lg"
             borderWidth="1px"
         >
-            <Box>
-                <SingleChat />
-            </Box>
-
+            <SingleChat fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
         </Box>
     );
 }

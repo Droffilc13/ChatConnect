@@ -8,7 +8,7 @@ import UserList from '../components/chat_component/ChatList.js';
 
 const ChatPage = () => {
     const { user } = useContext(ChatContext);
-    const [ fetch, fetchAgain ] = useState(false);
+    const [ fetchAgain, setFetchAgain ] = useState(false);
 
     return (
         <div style={{width: '100%'}}>
