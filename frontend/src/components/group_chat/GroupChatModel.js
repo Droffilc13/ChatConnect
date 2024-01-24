@@ -24,7 +24,7 @@ import TextField from '../form_utils/TextField';
 import { ChatContext, ChatProvider } from '../context/ChatProvider';
 import axios from 'axios';
 import UserListItem from '../chat_component/misc/UserListItem';
-import { CloseIcon } from '@chakra-ui/icons';
+import UserTag from '../chat_component/misc/UserTag';
 
 const validationSchema = Yup.object({
   groupName: Yup.string()
@@ -45,6 +45,10 @@ const GroupChatModel = ({ isGroupChatModalOpen, onGroupChatModalClose }) => {
     const { user, chats, setChats } = useContext(ChatContext);
 
     const toast = useToast();
+
+    const handleUserTagsDelete = (user) => {
+        setSelectedUsers(selectedUsers.filter(selectedUser => selectedUser._id != user._id))
+    }
 
     const handleAddToGroup = (user) => {
         if (!user) {
@@ -152,7 +156,13 @@ const GroupChatModel = ({ isGroupChatModalOpen, onGroupChatModalClose }) => {
 
 	return (
 		<>
-		<Modal isOpen={isGroupChatModalOpen} onClose={onGroupChatModalClose}>
+		<Modal 
+            isOpen={isGroupChatModalOpen} 
+            onClose={() => {
+                onGroupChatModalClose()
+                setSelectedUsers([]);
+            }}
+        >
             <ModalOverlay />
             <ModalContent>
                 <ModalHeader
@@ -186,21 +196,7 @@ const GroupChatModel = ({ isGroupChatModalOpen, onGroupChatModalClose }) => {
                         fontSize={14}
                     >
                         { selectedUsers?.map((user) => (
-                            <Box
-                                bg={"purple"}
-                                color={"white"}
-                                p={2}
-                                m={2}
-                            >
-                                {user.name}
-                                <CloseIcon 
-                                    onClick={() => {
-                                        setSelectedUsers(selectedUsers.filter(selectedUser => selectedUser._id != user._id))
-                                    }}
-                                    ml={2} 
-                                    mb={1} 
-                                    boxSize={2}/>
-                            </Box>
+                            <UserTag user={user} handleDelete={handleUserTagsDelete} />
                         ))}
                     </Box>
 
