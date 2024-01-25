@@ -191,7 +191,7 @@ const GroupChatModel = ({ isGroupChatModalOpen, onGroupChatModalClose }) => {
                         display="flex"
                         flexDirection=""
                         p={2}
-                        justifyContent="center"
+                        justifyContent="flex-start"
                         flexWrap={"wrap"}
                         fontSize={14}
                     >
