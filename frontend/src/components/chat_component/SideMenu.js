@@ -125,7 +125,7 @@ const SideMenu = () => {
                 >
                     <Button onClick={onSearchBarOpen} >
                         <SearchIcon />
-                        <Text display={{base:'none', md:'40px'}}>Search Users</Text>
+                        <Text ml={2} display={{base:'none', md:'flex'}}>Search Users</Text>
                     </Button>
                 </Tooltip>
 
