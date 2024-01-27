@@ -36,6 +36,8 @@ const UpdateGroupChatModal = ({fetchAgain, setFetchAgain}) => {
     useEffect(() => {
         setSelectedUsers(activeChat.users);
         setGroupName(groupName);
+        console.log("Active Chat:", activeChat);
+        console.log("Selected Users:", selectedUsers);
     },[activeChat]);
 
     const checkIsAdmin = () => {
@@ -64,20 +66,23 @@ const UpdateGroupChatModal = ({fetchAgain, setFetchAgain}) => {
                 }
             }
 
-            const { data } = await axios.put(`/api/chats/removefromgroup`, {
+            await axios.put(`/api/chats/removefromgroup`, {
                 chatId: activeChat._id,
                 accessChatUserId: groupMember._id
-            }, config);
-
-            setActiveChat(data);
-            toast ({
-                title: "Successfully removed member!",
-                description: `${groupMember.name} has been removed!`,
-                status: "success",
-                duration: 5000,
-                isClosable: true,
-                position: "bottom"
+            }, config).then((req) => {
+                setActiveChat(req.data);
+                setFetchAgain(!fetchAgain);
+                toast ({
+                    title: "Successfully removed member!",
+                    description: `${groupMember.name} has been removed!`,
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "bottom"
+                });
             });
+
+
         } catch (error) {
             toast ({
                 title: "Error occured when removing group member",
@@ -130,6 +135,7 @@ const UpdateGroupChatModal = ({fetchAgain, setFetchAgain}) => {
                 accessChatUserId: groupMember._id
             }, config).then(req => {
                 setActiveChat(req.data);
+                setFetchAgain(!fetchAgain);
             });
             
             toast ({
@@ -254,7 +260,13 @@ const UpdateGroupChatModal = ({fetchAgain, setFetchAgain}) => {
                 Open Modal
         </IconButton>
 
-        <Modal isOpen={isOpen} onClose={onClose}>
+        <Modal 
+            isOpen={isOpen} 
+            onClose={() => {
+                onClose();
+                setSearchResults([]);
+            }}
+        >
             <ModalOverlay />
             <ModalContent>
             <ModalHeader
@@ -312,16 +324,24 @@ const UpdateGroupChatModal = ({fetchAgain, setFetchAgain}) => {
                     display={"flex"}
                     flexDirection={"column"}
                 >
-                    {searchResults?searchResults.map(searchResult => (
+                    {searchResults? searchResults.map(searchResult => (
                         <UserListItem key={searchResult._id} user={searchResult} handleFunction={() => handleAddGroupMember(searchResult)} />
-                    )):(<div>Haha</div>)}
+                    )):
+                    (<div></div>)}
                 </Box>
                 
                 
             </ModalBody>
 
             <ModalFooter>
-                <Button colorScheme='red' mr={3} onClick={onClose}>
+                <Button 
+                    colorScheme='red' 
+                    mr={3} 
+                    onClick={() => {
+                        handleRemoveGroupMember(user);
+                        onClose();
+                        setFetchAgain(!fetchAgain); 
+                    }}>
                     Leave Group
                 </Button>
             </ModalFooter>
