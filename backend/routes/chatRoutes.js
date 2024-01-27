@@ -4,8 +4,7 @@ import { accessChat, fetchChats, createGroupChat, renameGroup, removeFromGroup, 
 
 const router = express.Router();
 
-router.route('/').post(authenticate, accessChat);
-router.route('/').get(authenticate, fetchChats);
+router.route('/').get(authenticate, fetchChats).post(authenticate, accessChat);
 router.route('/group').post(authenticate, createGroupChat);
 router.route('/rename').patch(authenticate, renameGroup);
 router.route('/removefromgroup').put(authenticate, removeFromGroup);

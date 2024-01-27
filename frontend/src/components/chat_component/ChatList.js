@@ -21,7 +21,6 @@ const ChatList = ({fetchAgain, setFetchAgain}) => {
                     Authorization: `Bearer ${user.token}`
                 }
             }
-
             const { data } = await axios.get("/api/chats", config);
             setChats(data);
         } catch (e) {
@@ -36,9 +35,20 @@ const ChatList = ({fetchAgain, setFetchAgain}) => {
         }
     }
 
+    // useEffect(() => {
+    //     console.log("Fetching Chats Again!")
+    //     fetchChats();
+    //     setFetchAgain(false);
+    //     const currentActiveChat = chats.filter(chat => chat._id === activeChat._id)[0];
+    //     if (currentActiveChat) {
+    //         setActiveChat(currentActiveChat);
+    //     }
+    // }, [fetchAgain])
+
     useEffect(() => {
+        console.log("Fetching Chats Again!");
         fetchChats();
-    }, [fetchAgain])
+    }, [fetchAgain]);
 
     return (
         <Box

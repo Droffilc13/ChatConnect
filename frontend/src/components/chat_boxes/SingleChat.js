@@ -36,11 +36,11 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                                     activeChat.chatName
                                     ) : (
                                         activeChat.users[0]._id == user._id ? activeChat.users[1].name : activeChat.users[0].name
-                                        )}
+                                    )}
                             </Text>
                         </div>
                         <div>
-                            <UpdateGroupChatModal/>
+                            <UpdateGroupChatModal fetchAgain={fetchAgain} setFetchAgain={setFetchAgain}/>
                         </div>
                     </Box>
 

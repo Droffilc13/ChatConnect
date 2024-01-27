@@ -3,6 +3,7 @@ import asyncHandler from 'express-async-handler';
 import User from '../models/userModel.js';
 
 const authenticate = asyncHandler(async (req, res, next) => {
+    console.log("HEYEYEYEYEYE")
     if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
         try {
             const token = req.headers.authorization.split(' ')[1];

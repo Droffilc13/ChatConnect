@@ -4,7 +4,7 @@ import { ChatContext } from '../components/context/ChatProvider.js'
 import { Box } from '@chakra-ui/react';
 import SideMenu from '../components/chat_component/SideMenu.js';
 import ChatBox from '../components/chat_component/ChatBox.js';
-import UserList from '../components/chat_component/ChatList.js';
+import ChatList from '../components/chat_component/ChatList.js';
 
 const ChatPage = () => {
     const { user } = useContext(ChatContext);
@@ -21,8 +21,8 @@ const ChatPage = () => {
                 mt={2}
                 ml={2}
                 justifyContent='space-between'
-                >
-                { user && <UserList fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} /> }
+            >
+                { user && <ChatList fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} /> }
                 { user && <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} /> }
             </Box>
 

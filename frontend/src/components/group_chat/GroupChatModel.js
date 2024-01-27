@@ -131,7 +131,8 @@ const GroupChatModel = ({ isGroupChatModalOpen, onGroupChatModalClose }) => {
             };
             const { data } = await axios.post('/api/chats/group', {
                 name: groupChatName,
-                users: JSON.stringify(selectedUsers.map(selectedUser => selectedUser._id))
+                users: JSON.stringify(selectedUsers.map(selectedUser => selectedUser._id)),
+                groupAdmin: user._id
             }, config);
             
             setChats([data, ...chats]);
@@ -161,6 +162,8 @@ const GroupChatModel = ({ isGroupChatModalOpen, onGroupChatModalClose }) => {
             onClose={() => {
                 onGroupChatModalClose()
                 setSelectedUsers([]);
+                setSearchQuery("");
+                setSearchResults([]);
             }}
         >
             <ModalOverlay />

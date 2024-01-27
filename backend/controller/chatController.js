@@ -127,7 +127,7 @@ const renameGroup = asyncHandler( async (req, res) => {
 
 const removeFromGroup = asyncHandler( async (req, res) => {
     const conditions = {_id: req.body.chatId}
-    const update = { $pull: { users: req.body.accessChatuserId }};
+    const update = { $pull: { users: req.body.accessChatUserId }};
     Chat.findOneAndUpdate(conditions, update, { returnOriginal:false})
         .populate("users", "-password")
         .populate("groupAdmin", "-password")
@@ -145,7 +145,7 @@ const removeFromGroup = asyncHandler( async (req, res) => {
 
 const addToGroup = asyncHandler( async (req, res) => {
     const conditions = {_id: req.body.chatId}
-    const update = { $push: { users: req.body.accessChatuserId }};
+    const update = { $push: { users: req.body.accessChatUserId }};
     Chat.findOneAndUpdate(conditions, update, { returnOriginal:false})
         .populate("users", "-password")
         .populate("groupAdmin", "-password")

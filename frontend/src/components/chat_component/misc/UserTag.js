@@ -17,8 +17,9 @@ const UserTag = ({ user, handleDelete}) => {
                 onClick={() => handleDelete(user)}
                 ml={2} 
                 mb={1}
+                color="red.400"
                 borderRadius="full"
-                boxSize={2}/>
+                boxSize={4}/>
         </Box>    
     );
     
