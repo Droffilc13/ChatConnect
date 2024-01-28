@@ -2,7 +2,7 @@ import jwt, { decode } from 'jsonwebtoken';
 import asyncHandler from 'express-async-handler';
 import User from '../models/userModel.js';
 
-const authenticate = asyncHandler(async (req, res, next) => {
+const authorized = asyncHandler(async (req, res, next) => {
     console.log("HEYEYEYEYEYE")
     if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
         try {
@@ -23,4 +23,4 @@ const authenticate = asyncHandler(async (req, res, next) => {
     }
 });
 
-export default authenticate;
+export default authorized;

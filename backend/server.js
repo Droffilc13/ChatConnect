@@ -7,6 +7,7 @@ import connectDB from "./config/db.js";
 import colors from 'colors';
 import userRoutes from './routes/userRoutes.js';
 import chatRoutes from './routes/chatRoutes.js';
+import messageRoutes from "./routes/messageRoutes.js";
 
 const app = express()
 
@@ -20,6 +21,7 @@ connectDB();
 app.use(express.json());
 app.use("/api/user", userRoutes);
 app.use("/api/chats", chatRoutes);
+app.use("/api/messages", messageRoutes);
 
 app.use((req, res, next) => {
     res.status(404).send('Sorry, the page you are looking for does not exist');
