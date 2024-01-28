@@ -1,6 +1,6 @@
 import express from 'express';
-import authorized from '../middleware/authorized';
-import { sendMessage, getAllMessages } from '../controller/messageController';
+import authorized from '../middleware/authorized.js';
+import { sendMessage, getAllMessages } from '../controller/messageController.js';
 
 const router = express.Router();
 
